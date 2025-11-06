@@ -117,6 +117,19 @@ body {
     width: 100%;
 }
 
+.header-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.header-logo {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
 .header h1 {
     font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-sm);
@@ -279,6 +292,16 @@ body {
     .container {
         border-radius: 0;
         height: 100vh;
+    }
+
+    .header-title-wrapper {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: center;
+    }
+
+    .header-logo {
+        height: 40px;
     }
 
     .header h1 {
