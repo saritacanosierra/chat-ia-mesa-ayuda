@@ -113,7 +113,6 @@ class Robot3DView {
         this.hideSplineBranding();
 
         this.isLoaded = true;
-        console.log('🤖 Robot 3D (spline-viewer) inicializado');
     }
 
     /**

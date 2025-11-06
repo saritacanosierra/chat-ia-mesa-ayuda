@@ -27,21 +27,12 @@ class UsuarioController {
      * Inicializa el controlador
      */
     init() {
-        console.log('🚀 Inicializando UsuarioController...');
-        console.log('📋 Elementos del DOM encontrados:', {
-            questionInput: !!this.questionInput,
-            sendBtn: !!this.sendBtn,
-            configBtn: !!this.configBtn
-        });
         this.setupEventListeners();
-        console.log('📡 Cargando información de la red...');
         this.loadNetworkInfo();
         this.appStateModel.setFileLoaded(true); // Usuario siempre puede hacer preguntas
         
         // Inicializar robot 3D
         this.initRobot3D();
-        
-        console.log('✅ Chat IA (Vista Usuario) inicializado correctamente');
     }
 
     /**
@@ -379,9 +370,7 @@ Horario de atención: Lunes a Viernes de 8:00 AM a 6:00 PM`;
             // Si no se pasa, usará un ejemplo por defecto
             // Para usar tu propio robot: exporta desde Spline Design y sube el archivo .splinecode
             await this.robot3DView.init();
-            console.log('🤖 Robot 3D inicializado');
         } catch (error) {
-            console.warn('⚠️ No se pudo cargar el robot 3D:', error);
             // El robot mostrará un fallback automáticamente
         }
     }
@@ -390,42 +379,29 @@ Horario de atención: Lunes a Viernes de 8:00 AM a 6:00 PM`;
      * Carga la información de la red
      */
     async loadNetworkInfo() {
-        console.log('📡 loadNetworkInfo() - Iniciando...');
         this.networkInfoView.displayLoading();
         
         try {
-            console.log('📡 Intentando obtener información de la red desde:', `${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.NETWORK_INFO}`);
             const data = await this.networkModel.fetchNetworkInfo();
-            console.log('✅ Información de la red recibida:', data);
             this.networkInfoView.displayNetworkInfo(data);
         } catch (error) {
             // Si hay error, simplemente ocultar la sección de información de red
             // No es crítica para el funcionamiento del chat
-            console.error('❌ Error al cargar información de la red:', {
-                message: error.message,
-                stack: error.stack,
-                tipo: error.name
-            });
             const section = document.getElementById('networkInfoSection');
             if (section) {
                 section.style.display = 'none';
             }
-            console.warn('⚠️ Se ocultó la sección de información de red debido al error');
         }
     }
 
 }
 
 // Inicializar cuando el DOM esté listo
-console.log('📄 Estado del DOM:', document.readyState);
 if (document.readyState === 'loading') {
-    console.log('⏳ Esperando DOMContentLoaded...');
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('✅ DOMContentLoaded - Creando UsuarioController');
         new UsuarioController();
     });
 } else {
-    console.log('✅ DOM ya está listo - Creando UsuarioController inmediatamente');
     new UsuarioController();
 }
 

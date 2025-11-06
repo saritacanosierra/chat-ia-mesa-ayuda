@@ -11,12 +11,8 @@ class QuestionModel {
      */
     async askQuestion(question, conversationHistory = []) {
         const url = `${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.ASK}`;
-        console.log('💬 QuestionModel.askQuestion() - Pregunta:', question);
-        console.log('📜 Historial de conversación:', conversationHistory.length, 'mensajes');
-        console.log('🌐 URL:', url);
         
         try {
-            console.log('📤 Enviando petición POST a:', url);
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -27,21 +23,11 @@ class QuestionModel {
                     conversation_history: conversationHistory
                 })
             });
-            
-            console.log('📥 Respuesta recibida:', {
-                status: response.status,
-                statusText: response.statusText,
-                ok: response.ok,
-                contentType: response.headers.get('content-type')
-            });
 
             // Verificar si la respuesta es JSON válido
             const contentType = response.headers.get('content-type');
-            console.log('📄 Content-Type de la respuesta:', contentType);
             
             if (!contentType || !contentType.includes('application/json')) {
-                console.error('❌ El servidor no está respondiendo con JSON. Content-Type:', contentType);
-                console.error('⚠️ Esto indica que probablemente hay un error de PHP o el servidor no está configurado correctamente');
                 // El servidor está respondiendo con HTML (probablemente un error de PHP)
                 throw new Error('SERVER_CONFIG_ERROR');
             }
@@ -64,20 +50,12 @@ class QuestionModel {
             }
 
             const data = await response.json();
-            console.log('✅ Respuesta parseada correctamente:', data);
             return data;
         } catch (error) {
-            console.error('❌ Error en askQuestion:', {
-                name: error.name,
-                message: error.message,
-                stack: error.stack
-            });
-            
             // Detectar errores de conexión específicamente
             if (error.message.includes('Failed to fetch') || 
                 error.message.includes('NetworkError') ||
                 error.message === 'Network request failed') {
-                console.error('🔴 Error de conexión detectado - El servidor no está respondiendo');
                 throw new Error('CONNECTION_ERROR');
             }
             // Si ya es un Error personalizado, mantenerlo

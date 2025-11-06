@@ -41,11 +41,5 @@ const CONFIG = {
     SYSTEM_STATUS_UPDATE_INTERVAL: 30000 // 30 segundos
 };
 
-// Log de configuración al cargar
-console.log('🔧 CONFIGURACIÓN DE LA APLICACIÓN:', {
-    API_BASE_URL: CONFIG.API_BASE_URL,
-    ENDPOINTS: CONFIG.ENDPOINTS,
-    URL_COMPLETA_NETWORK_INFO: `${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.NETWORK_INFO}`,
-    URL_COMPLETA_ASK: `${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.ASK}`
-});
+// Configuración cargada (sin logs por seguridad)
 
