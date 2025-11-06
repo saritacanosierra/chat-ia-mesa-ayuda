@@ -55,7 +55,7 @@ Invoke-RestMethod http://localhost:8000/
 - Doble clic a `index.html` (se abre como `file://`), o abre con un servidor estático si prefieres.
 - Con el ajuste en `assets/js/config.js`, el frontend apuntará a `http://localhost:8000` cuando se abra con `file://`.
 
----
+____________________________________________________________________________________________________________________________________________________
 
 ## Copiar y pegar (PowerShell) – levantar todo de una
 Pega esto tal cual en PowerShell para iniciar el backend en `http://localhost:8000`.
@@ -67,12 +67,12 @@ cd "C:\xampp\htdocs\chat mesa ayuda"
 & "C:\xampp\php\php.exe" ".\composer.phar" install --ignore-platform-req=ext-gd
 
 # 2) Crear .env si no existe (reemplaza TU_API_KEY_DE_GEMINI por la tuya)
-if (!(Test-Path .env)) { Set-Content -Path .env -Value "GEMINI_API_KEY=TU_API_KEY_DE_GEMINI" }
+if (!(Test-Path .env)) { Set-Content -Path .env -Value "AIzaSyA7dPJSKJp6gmz9sqejixgyVEou29vqrRc" }
 
 # 3) Iniciar servidor en 8000
 & "C:\xampp\php\php.exe" -S localhost:8000 -t public
 ```
-
+_________________________________________________________________________________________________________________________________________________________
 ---
 
 ## Verificación rápida (para cualquier opción)
