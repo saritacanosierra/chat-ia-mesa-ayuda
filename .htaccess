@@ -1,0 +1,14 @@
+# Redirigir todas las peticiones API a la carpeta public
+RewriteEngine On
+
+# Si la petición es para un archivo o directorio que existe, servirlo directamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Si la petición comienza con /upload, /ask, /network-info, /files, /auth, /frequent-questions
+# redirigir a public/index.php
+RewriteCond %{REQUEST_URI} ^/(upload|ask|network-info|files|auth|frequent-questions)
+RewriteRule ^(.*)$ public/index.php [QSA,L]
+
+# Para todas las demás peticiones, servir el archivo normalmente (index.html, etc.)
+

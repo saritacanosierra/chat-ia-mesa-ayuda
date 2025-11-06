@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de chat con IA entrenada en documentos usando RAG">
+    <title>Chat IA - Mesa de Ayuda</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/usuario.css">
+</head>
+<body>
+    <div class="container" role="main">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div>
+                    <h1>💬 Chat IA - Mesa de Ayuda</h1>
+                    <p>Sistema de ayuda con preguntas y respuestas </p>
+                </div>
+                <div class="config-menu-wrapper">
+                    <button 
+                        class="config-btn" 
+                        id="configBtn"
+                        aria-label="Configuración"
+                        title="Menú de configuración"
+                    >
+                        ⚙️
+                    </button>
+                    <div class="config-menu" id="configMenu" style="display: none;">
+                        <a href="archivos-bd.html" class="config-menu-item" id="configMenuItem" onclick="event.stopPropagation();" style="display: none;">
+                            <span class="menu-icon">📁</span>
+                            <span>Configuración</span>
+                        </a>
+                        <button type="button" class="config-menu-item" id="loginConfigBtn" onclick="event.stopPropagation();">
+                            <span class="menu-icon">🔐</span>
+                            <span>Ingresar a Configuración</span>
+                        </button>
+                        <button type="button" class="config-menu-item" id="contactAdvisorBtn">
+                            <span class="menu-icon">👤</span>
+                            <span>Contactar a un Asesor</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navegación -->
+        <nav class="nav-buttons" aria-label="Navegación" style="display: none;">
+            <a href="index.html" class="nav-btn active">Vista Usuario</a>
+            <a href="archivos-bd.html" class="nav-btn">Archivos BD</a>
+        </nav>
+
+        <!-- Información de la red -->
+        <section class="network-info-section" id="networkInfoSection" aria-label="Información de la red">
+            <div class="network-info-card" id="networkInfoCard">
+                <div class="loading">Cargando información...</div>
+            </div>
+        </section>
+
+        <!-- Robot 3D - Spline Design -->
+        <div class="robot-3d-container" id="robot3DContainer">
+            <spline-viewer id="robot3DViewer" url="https://prod.spline.design/AUWIhN4z2jz-OeM2/scene.splinecode"></spline-viewer>
+        </div>
+
+        <!-- Contenedor de chat -->
+        <div class="chat-container">
+            <!-- Área de mensajes -->
+            <div 
+                class="messages" 
+                id="messages" 
+                role="log" 
+                aria-live="polite" 
+                aria-label="Mensajes del chat"
+            >
+                <div class="message assistant">
+                    <div class="message-bubble">
+                        👋 ¡Hola! Soy tu asistente de mesa de ayuda. Puedo ayudarte con preguntas sobre los documentos que subas, así como responder consultas generales. ¿En qué puedo ayudarte hoy?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controles de entrada -->
+            <div class="input-container">
+                <input 
+                    type="text" 
+                    id="questionInput" 
+                    class="input-field" 
+                    placeholder="Escribe tu pregunta aquí..."
+                    aria-label="Campo de entrada para preguntas"
+                    aria-describedby="sendBtn"
+                />
+                <button 
+                    class="send-btn" 
+                    id="sendBtn"
+                    aria-label="Enviar pregunta"
+                >
+                    Enviar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de autenticación -->
+    <div id="authModal" class="auth-modal" style="display: none;">
+        <div class="auth-modal-overlay"></div>
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <h3>🔐 Acceso a Configuración</h3>
+                <button class="auth-modal-close" id="closeAuthModal">×</button>
+            </div>
+            <div class="auth-modal-body">
+                <p>Ingresa la contraseña para acceder a la configuración:</p>
+                <input 
+                    type="password" 
+                    id="passwordInput" 
+                    class="auth-input" 
+                    placeholder="Contraseña"
+                    autocomplete="off"
+                />
+                <div id="authError" class="auth-error" style="display: none;"></div>
+                <div class="auth-modal-actions">
+                    <button class="auth-btn auth-btn-primary" id="loginBtn">Ingresar</button>
+                    <button class="auth-btn auth-btn-secondary" id="cancelAuthBtn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtro para suprimir advertencias de Spline (antes de cargar Spline) -->
+    <script>
+        // Suprimir advertencias específicas de Spline/Three.js sobre morphTargetInfluences
+        // Estas advertencias no afectan la funcionalidad, solo son ruido en la consola
+        (function() {
+            const originalError = console.error;
+            const originalWarn = console.warn;
+            
+            const splineWarningPatterns = [
+                /THREE\.PropertyBinding.*morphTargetInfluences.*wasn't found/i,
+                /Trying to update property for track.*morphTargetInfluences/i,
+                /L_Eye\.morphTargetInfluences/i,
+                /R_Eye\.morphTargetInfluences/i
+            ];
+            
+            const shouldSuppress = (args) => {
+                const message = args.join(' ');
+                return splineWarningPatterns.some(pattern => pattern.test(message));
+            };
+            
+            console.error = function(...args) {
+                if (!shouldSuppress(args)) {
+                    originalError.apply(console, args);
+                }
+            };
+            
+            console.warn = function(...args) {
+                if (!shouldSuppress(args)) {
+                    originalWarn.apply(console, args);
+                }
+            };
+        })();
+    </script>
+    
+    <!-- Spline Design Viewer -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.96/build/spline-viewer.js"></script>
+    
+    <!-- JavaScript - MVC -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils/sanitize.js"></script>
+    <script src="assets/js/models/AppStateModel.js"></script>
+    <script src="assets/js/models/NetworkModel.js"></script>
+    <script src="assets/js/models/QuestionModel.js"></script>
+    <script src="assets/js/views/MessageView.js"></script>
+    <script src="assets/js/views/NetworkInfoView.js"></script>
+    <script src="assets/js/views/Robot3DView.js"></script>
+    <script src="assets/js/controllers/UsuarioController.js"></script>
+</body>
+</html>

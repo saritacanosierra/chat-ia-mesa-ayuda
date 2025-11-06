@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Archivos BD - Gestión de documentos para entrenar la IA">
+    <title>Archivos BD - Gestión de Documentos</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/archivos-bd.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📁 Archivos BD</h1>
+            <p>Gestión de documentos para entrenar la IA</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-btn">Vista Usuario</a>
+            <a href="archivos-bd.html" class="nav-btn" style="background: var(--color-primary); color: white;">Archivos BD</a>
+            <button class="nav-btn nav-btn-logout" id="logoutBtn" style="background: var(--color-error); color: white; border: none; cursor: pointer;">
+                Salir
+            </button>
+        </div>
+
+        <div class="content">
+            <!-- Sección de información -->
+            <div class="section">
+                <div class="info-box">
+                    <h3>ℹ️ Información importante</h3>
+                    <ul>
+                        <li>Puedes subir archivos PDF, TXT, XLSX o MD para entrenar la IA</li>
+                        <li>Los archivos se procesan y se convierten en conocimiento base</li>
+                        <li>Los archivos se almacenan y acumulan para que la IA aprenda de todos ellos</li>
+                        <li>Los usuarios podrán hacer preguntas basadas en todos los documentos cargados</li>
+                        <li>Puedes eliminar archivos individuales desde la tabla de archivos almacenados</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección de carga de archivos -->
+            <div class="section">
+                <h2>📤 Subir Documento</h2>
+                <div class="upload-area">
+                    <div class="file-input-wrapper">
+                        <input 
+                            type="file" 
+                            id="fileInput" 
+                            accept=".pdf,.txt,.xlsx,.md"
+                            aria-label="Seleccionar archivo PDF, TXT, XLSX o MD"
+                        />
+                        <label for="fileInput" class="file-input-label">
+                            📁 Seleccionar archivo (PDF, TXT, XLSX o MD)
+                        </label>
+                    </div>
+                    <button 
+                        class="upload-btn" 
+                        id="uploadBtn" 
+                        disabled
+                        aria-label="Subir archivo seleccionado"
+                    >
+                        Subir y Procesar
+                    </button>
+                    <div class="file-info" id="fileInfo"></div>
+                    <!-- Barra de progreso -->
+                    <div id="progressContainer" class="progress-container" style="display: none;">
+                        <div class="progress-bar-wrapper">
+                            <div class="progress-bar" id="progressBar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="progress-text" id="progressText">0%</div>
+                        </div>
+                        <div class="progress-status" id="progressStatus">Iniciando...</div>
+                    </div>
+                </div>
+                <div id="statusMessages"></div>
+            </div>
+
+            <!-- Sección de archivos almacenados -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>📚 Archivos Almacenados</h2>
+                    <button class="modal-trigger-btn" id="viewFilesBtn" aria-label="Ver archivos almacenados">
+                        📁 Ver Archivos Almacenados
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sección de preguntas frecuentes -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>❓ Preguntas Frecuentes</h2>
+                    <button class="modal-trigger-btn" id="viewQuestionsBtn" aria-label="Ver preguntas frecuentes">
+                        ❓ Ver Preguntas Frecuentes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sección de estado -->
+            <div class="section">
+                <h2>📊 Estado del Sistema</h2>
+                <div class="info-box" id="systemStatus">
+                    <p>Cargando estado del sistema...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Archivos Almacenados -->
+    <div id="filesModal" class="modal" style="display: none;">
+        <div class="modal-overlay" id="filesModalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📚 Archivos Almacenados</h2>
+                <button class="modal-close" id="closeFilesModal" aria-label="Cerrar modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="files-table-container" id="filesTableContainer">
+                    <div class="loading">Cargando archivos...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Preguntas Frecuentes -->
+    <div id="questionsModal" class="modal" style="display: none;">
+        <div class="modal-overlay" id="questionsModalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>❓ Preguntas Frecuentes</h2>
+                <button class="modal-close" id="closeQuestionsModal" aria-label="Cerrar modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="frequent-questions-container" id="frequentQuestionsContainer">
+                    <div class="loading">Cargando preguntas frecuentes...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript - MVC -->
+    <script src="assets/js/config.js"></script>
+    <script>
+        // Proteger acceso: verificar autenticación antes de cargar la página
+        (function() {
+            const isAuthenticated = sessionStorage.getItem('admin_authenticated') === 'true';
+            if (!isAuthenticated) {
+                // Redirigir a la página principal si no está autenticado
+                alert('⚠️ Acceso restringido. Debes autenticarte primero desde el menú de configuración.');
+                window.location.href = 'index.html';
+            }
+        })();
+    </script>
+    <script src="assets/js/utils/sanitize.js"></script>
+    <script src="assets/js/models/AppStateModel.js"></script>
+    <script src="assets/js/models/FileModel.js"></script>
+    <script src="assets/js/models/FilesModel.js"></script>
+    <script src="assets/js/models/FrequentQuestionsModel.js"></script>
+    <script src="assets/js/views/FileUploadView.js"></script>
+    <script src="assets/js/views/FilesTableView.js"></script>
+    <script src="assets/js/views/FrequentQuestionsView.js"></script>
+    <script src="assets/js/controllers/ArchivosBDController.js"></script>
+</body>
+</html>

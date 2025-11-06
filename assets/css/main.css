@@ -1,0 +1,302 @@
+/* ============================================
+   RESET Y VARIABLES CSS
+   ============================================ */
+:root {
+    /* Colores principales - tema oscuro futurista */
+    --color-primary: #6c8cff;             /* azul neón suave */
+    --color-primary-dark: #526bf0;
+    --color-secondary: #9b6cff;           /* púrpura neón suave */
+    --color-background: #0b1020;          /* fondo base oscuro */
+    --color-surface: rgba(18, 24, 48, 0.92);/* superficies translúcidas con mayor contraste */
+    --color-text: #e6e9ff;
+    --color-text-secondary: #b6b9d6;
+    --color-text-muted: #8a8fb3;
+    
+    /* Colores de estado */
+    --color-success: #155724;
+    --color-success-bg: #d4edda;
+    --color-success-border: #c3e6cb;
+    --color-error: #db1024;
+    --color-error-bg: #f8d7da;
+    --color-error-border: #f5c6cb;
+    --color-info: #0c5460;
+    --color-info-bg: #d1ecf1;
+    --color-info-border: #bee5eb;
+    --color-warning: #856404;
+    --color-warning-bg: #fff3cd;
+    --color-warning-border: #ffeeba;
+    
+    /* Espaciado */
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+    
+    /* Bordes */
+    --border-radius-sm: 10px;
+    --border-radius-md: 18px;
+    --border-radius-lg: 20px;
+    --border-radius-full: 25px;
+    --border-width: 2px;
+    --border-color: #e0e0e0;
+    
+    /* Sombras */
+    --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 8px 24px rgba(108, 140, 255, 0.25);
+    --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.55);
+    
+    /* Transiciones */
+    --transition-fast: 0.2s;
+    --transition-normal: 0.3s;
+    
+    /* Tipografía */
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-size-xs: 11px;
+    --font-size-sm: 14px;
+    --font-size-base: 16px;
+    --font-size-lg: 24px;
+    
+    /* Layout */
+    --container-max-width: 800px;
+    --container-height: 90vh;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================================
+   ELEMENTOS BASE
+   ============================================ */
+body {
+    font-family: var(--font-family);
+    background: radial-gradient(1200px 600px at 10% -10%, rgba(92, 108, 185, 0.4) 0%, transparent 60%),
+                radial-gradient(1200px 800px at 110% 10%, rgba(20, 15, 50, 0.4) 0%, transparent 60%),
+                linear-gradient(135deg, #050810 0%, #080c18 100%);
+    min-height: 100vh;
+    line-height: 1.5;
+    color: var(--color-text);
+}
+
+/* ============================================
+   COMPONENTES COMUNES
+   ============================================ */
+.container {
+    /* Contraste claro vs fondo general (container más luminoso y azulado) */
+    background: linear-gradient(180deg, #ffffff 0%, #b9bbff 100%);
+    border: 1px solid rgba(108, 140, 255, 0.32);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 
+                0 0 0 1px rgba(108, 140, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    width: 100%;
+    max-width: var(--container-max-width);
+    height: var(--container-height);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    backdrop-filter: blur(12px) saturate(130%);
+}
+
+.header {
+    /* Mismo tono morado que burbujas del usuario */
+    background: linear-gradient(135deg, #9b6cff 10%, #8bc6e4 50%, #6c4cff 100%);
+    color: #ffffff;
+    padding: var(--spacing-lg);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header h1 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.header p {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+.nav-buttons {
+    padding: var(--spacing-md);
+    background: rgba(18, 24, 48, 0.92);
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.nav-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(108, 140, 255, 0.35);
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-sm);
+    box-shadow: 0 0 0 rgba(108, 140, 255, 0);
+    font-family: var(--font-family);
+}
+
+.nav-btn:hover {
+    background: linear-gradient(135deg, rgba(108, 140, 255, 0.25) 0%, rgba(155, 108, 255, 0.25) 100%);
+    color: var(--color-text);
+    box-shadow: 0 8px 24px rgba(108, 140, 255, 0.2);
+}
+
+.nav-btn.active {
+    background: linear-gradient(135deg, rgba(108, 140, 255, 0.3) 0%, rgba(155, 108, 255, 0.3) 100%);
+    color: var(--color-text);
+}
+
+.nav-btn-logout {
+    background: var(--color-error) !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.nav-btn-logout:hover {
+    background: #f71c32 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgb(148, 34, 34);
+}
+
+.nav-btn-logout:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   COMPONENTES DE UI
+   ============================================ */
+.loading {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.loading::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--color-primary);
+    animation: spin 0.8s linear infinite;
+}
+
+.status-message {
+    padding: var(--spacing-sm);
+    margin: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-sm);
+    text-align: center;
+    font-size: var(--font-size-sm);
+    animation: slideDown var(--transition-normal) ease-out;
+    backdrop-filter: blur(8px);
+}
+
+.status-message.success {
+    background: var(--color-success-bg);
+    color: var(--color-success);
+    border: 1px solid var(--color-success-border);
+}
+
+.status-message.error {
+    background: var(--color-error-bg);
+    color: var(--color-error);
+    border: 1px solid var(--color-error-border);
+}
+
+.status-message.warning {
+    background: var(--color-warning-bg);
+    color: var(--color-warning);
+    border: 1px solid var(--color-warning-border);
+}
+
+.status-message.info {
+    background: var(--color-info-bg);
+    color: var(--color-info);
+    border: 1px solid var(--color-info-border);
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    :root {
+        --container-height: 100vh;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    .container {
+        border-radius: 0;
+        height: 100vh;
+    }
+
+    .header h1 {
+        font-size: var(--font-size-base);
+    }
+
+    .header p {
+        font-size: var(--font-size-xs);
+    }
+
+    .nav-buttons {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: var(--spacing-md);
+    }
+}
+
